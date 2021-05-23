@@ -9,11 +9,16 @@ import data.service.CollectionService;
 import data.service.ComicService;
 import dtos.Collection;
 import dtos.Comic;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -27,6 +32,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import tools.AlertManager;
@@ -84,6 +92,12 @@ public class ComicDetailController implements Initializable {
     private Button btnEditar;
 
     private Comic comic;
+    @FXML
+    private ImageView imgView;
+    @FXML
+    private Button btnImagen;
+
+    private File image;
 
     /**
      * Initializes the controller class.
@@ -223,12 +237,20 @@ public class ComicDetailController implements Initializable {
     @FXML
     private void nuevoComicOnAction(ActionEvent event) {
         if (validateFields()) {
-            Comic c = createComic();
-            c.setId(comic.getId());
-            int response = new ComicService().updateComic(c);
-            if (response == 200 || response == 201) {
-                AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic modificado con éxito", "Comic modificado").show();
-                ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+            int responseurl = new ComicService().updateComic(createComic());
+            if (responseurl > 0) {
+                if (image != null) {
+                    try {
+                        new ComicService().uploadImage(comic.getId(), image);
+                        AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic modificado con éxito", "Comic modificado").show();
+                        ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(NewComicFormController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic modificado con éxito", "Comic modificado").show();
+                    ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+                }
             } else {
                 AlertManager.createAlert(Alert.AlertType.ERROR, "Ha ocurrido un problema al modificar el comic", "Error").show();
             }
@@ -244,7 +266,7 @@ public class ComicDetailController implements Initializable {
     private void btnEditarOnAction(ActionEvent event) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         formatter = formatter.withLocale(Locale.getDefault());
-        
+
         txtNombre.setText(comic.getName());
         txtIsbn.setText(comic.getIsbn());
         txtEditorial.setText(comic.getPublisher());
@@ -258,6 +280,7 @@ public class ComicDetailController implements Initializable {
         cmbColeccion.setVisible(true);
         cmbEstado.setVisible(true);
         dpFechaPublicacion.setVisible(true);
+        btnImagen.setVisible(true);
 
         lblNombre.setVisible(false);
         lblIsbn.setVisible(false);
@@ -292,6 +315,12 @@ public class ComicDetailController implements Initializable {
 
         cmbEstado.getSelectionModel().select(comic.getState());
 
+        if (comic.getImageURL() != null) {
+            imgView.setImage(new ComicService().getImage(comic.getId()));
+        } else {
+            InputStream is = getClass().getResourceAsStream("/assets/icons/noimg.png");
+            imgView.setImage(new Image(is));
+        }
     }
 
     private Comic createComic() {
@@ -300,5 +329,20 @@ public class ComicDetailController implements Initializable {
         return new Comic(txtNombre.getText().trim(), formatter.format(dpFechaPublicacion.getValue()),
                 cmbEstado.getValue(), Integer.parseInt(txtNumero.getText().trim()), txtEditorial.getText().trim(),
                 txtIsbn.getText().trim(), cmbColeccion.getValue().getName(), cmbColeccion.getValue().getId());
+    }
+
+    @FXML
+    private void btnImagenOnAction(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png"));
+
+        File f = fc.showOpenDialog(this.btnCancelar.getScene().getWindow());
+
+        if (f != null) {
+            image = f;
+            imgView.setImage(new Image(f.toURI().toString()));
+        }
     }
 }

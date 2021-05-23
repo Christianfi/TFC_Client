@@ -11,9 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dtos.Comic;
 import java.util.List;
 import data.HttpManager;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -51,11 +56,11 @@ public class ComicService {
             
             HttpResponse<String> response = httpManager.postRequest("/comics/comic", body);
             
-            return response.statusCode();
+            return Integer.parseInt(response.body());
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ComicService.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            return 0;
         }
         
     }
@@ -79,5 +84,16 @@ public class ComicService {
          HttpResponse<String> response = httpManager.deleteRequest("/comics/comic/"+c.getId());
          
          return response.statusCode();
+    }
+    
+    public String uploadImage(int id, File f) throws IOException{
+        return httpManager.uploadFile("/comics/comic/"+id+"/image",f);
+    }
+    
+    public Image getImage(int id){
+        
+        HttpResponse<byte[]> response = httpManager.getImage("/comics/comic/"+id+"/image");
+        
+        return new Image(new ByteArrayInputStream(response.body()));
     }
 }

@@ -33,6 +33,8 @@ public class Comic implements Serializable{
     
     private int collectionId;
     
+    private String imageURL;
+    
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     public Comic(int id, String name, String publishDate, String state, int number, String publisher,String isbn, String collectionName, int collectionId) {
@@ -60,6 +62,14 @@ public class Comic implements Serializable{
     
 
     public Comic() {
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public int getId() {

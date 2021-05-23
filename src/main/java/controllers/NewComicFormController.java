@@ -9,9 +9,13 @@ import data.service.CollectionService;
 import data.service.ComicService;
 import dtos.Collection;
 import dtos.Comic;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -25,6 +29,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import tools.AlertManager;
@@ -66,7 +73,13 @@ public class NewComicFormController implements Initializable {
     private Label lblErrorFecha;
 
     private ComicService comicService;
-    
+    @FXML
+    private Button btnImagen;
+
+    private File imagen;
+    @FXML
+    private ImageView imgView;
+
     /**
      * Initializes the controller class.
      */
@@ -80,10 +93,20 @@ public class NewComicFormController implements Initializable {
     @FXML
     private void nuevoComicOnAction(ActionEvent event) {
         if (validateFields()) {
-            int response = comicService.insertComic(createComic());
-            if (response == 200 || response == 201) {
-                AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic añadido con éxito", "Comic añadido").show();
-                ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+            int responseurl = comicService.insertComic(createComic());
+            if (responseurl > 0) {
+                if (imagen != null) {
+                    try {
+                        comicService.uploadImage(responseurl, imagen);
+                        AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic añadido con éxito", "Comic añadido").show();
+                        ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(NewComicFormController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic añadido con éxito", "Comic añadido").show();
+                    ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+                }
             } else {
                 AlertManager.createAlert(Alert.AlertType.ERROR, "Ha ocurrido un problema al añadir el comic", "Error").show();
             }
@@ -227,6 +250,21 @@ public class NewComicFormController implements Initializable {
         cmbEstado.getItems().add("Mal Estado");
 
         cmbEstado.getSelectionModel().select("Perfecto Estado");
+    }
+
+    @FXML
+    private void btnImagenOnAction(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png"));
+
+        File f = fc.showOpenDialog(this.btnCancelar.getScene().getWindow());
+
+        if (f != null) {
+            imagen = f;
+            imgView.setImage(new Image(f.toURI().toString()));
+        }
     }
 
 }

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -12,13 +13,13 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 
-<GridPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewComicFormController">
+<GridPane prefHeight="588.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewComicFormController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="464.0" minHeight="10.0" prefHeight="434.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="394.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="515.0" minHeight="10.0" prefHeight="508.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="394.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
       <GridPane prefHeight="423.0" prefWidth="400.0">
@@ -33,7 +34,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="49.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="108.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Nombre">
@@ -164,16 +166,25 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </ComboBox>
+            <Button fx:id="btnImagen" mnemonicParsing="false" onAction="#btnImagenOnAction" prefHeight="25.0" prefWidth="136.0" text="Seleccionar Imagen..." GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin></Button>
+            <ImageView fx:id="imgView" fitHeight="83.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </ImageView>
+            <Label text="Editorial" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
-      <Label text="Editorial">
-         <GridPane.margin>
-            <Insets left="20.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
       <GridPane GridPane.rowIndex="1">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
