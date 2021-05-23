@@ -67,7 +67,6 @@ public class NewComicFormController implements Initializable {
 
     private ComicService comicService;
     
-
     /**
      * Initializes the controller class.
      */
@@ -93,7 +92,7 @@ public class NewComicFormController implements Initializable {
 
     @FXML
     private void cancelarOnAction(ActionEvent event) {
-        ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
+        ((Stage) this.btnCancelar.getScene().getWindow()).close();
     }
 
     private Comic createComic() {
@@ -229,6 +228,5 @@ public class NewComicFormController implements Initializable {
 
         cmbEstado.getSelectionModel().select("Perfecto Estado");
     }
-
 
 }
