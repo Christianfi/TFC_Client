@@ -20,7 +20,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-       new WindowManager().openWindow("/fxml/ComicWindow.fxml", "Gestion de Comics").show();
+       new WindowManager().openWindow("/fxml/CollectionWindow.fxml", "Gestion de Comics").show();
     }
     
 }

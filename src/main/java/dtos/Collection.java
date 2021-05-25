@@ -14,6 +14,8 @@ public class Collection {
     private String name;
     
     private int id;
+    
+    private String imageURL;
 
     public Collection() {
     }
@@ -41,6 +43,14 @@ public class Collection {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override

@@ -100,7 +100,7 @@ public class FilterTable {
         SortedList<Client> sortedData = new SortedList<>(filterList);
 
         sortedData.comparatorProperty().bind(table.comparatorProperty());
-
+        
         table.setItems(sortedData);
     }
 }

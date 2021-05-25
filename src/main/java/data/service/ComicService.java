@@ -18,7 +18,6 @@ import java.net.http.HttpResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
-import javax.swing.ImageIcon;
 
 /**
  *
