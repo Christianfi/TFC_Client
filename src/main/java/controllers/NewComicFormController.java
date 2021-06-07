@@ -266,5 +266,9 @@ public class NewComicFormController implements Initializable {
             imgView.setImage(new Image(f.toURI().toString()));
         }
     }
+    
+    public void setCollectionSelected(Collection c){
+        this.cmbColeccion.getSelectionModel().select(c);
+    }
 
 }

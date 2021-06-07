@@ -191,6 +191,6 @@ public class ComicWindowController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ComicWindowController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+    
 }

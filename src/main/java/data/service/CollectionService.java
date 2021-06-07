@@ -9,7 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.HttpManager;
+import dtos.Client;
 import dtos.Collection;
+import dtos.Comic;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class CollectionService {
         return null;
     }
 
-    public int insertComic(Collection c) {
+    public int insertCollection(Collection c) {
         try {
             String body = mapper.writeValueAsString(c);
 
@@ -64,13 +66,13 @@ public class CollectionService {
 
     }
 
-    public int updateComic(Collection c) {
+    public int updateCollection(Collection c) {
         try {
             String body = mapper.writeValueAsString(c);
 
             HttpResponse<String> response = httpManager.putRequest("/collections/collection/" + c.getId(), body);
 
-            return response.statusCode();
+            return Integer.parseInt(response.body());
 
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ComicService.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,11 +80,26 @@ public class CollectionService {
         }
     }
 
-    public int deleteComic(Collection c) {
+    public int deleteCollection(Collection c) {
 
         HttpResponse<String> response = httpManager.deleteRequest("/collections/collection/" + c.getId());
 
         return response.statusCode();
+    }
+
+    public List<Comic> getCollectionComics(Collection c) {
+        try {
+            String body = httpManager.getRequest("/collections/collection/" + c.getId() + "/comics").body();
+
+            if (body != null) {
+                return mapper.readValue(body,
+                        new TypeReference<List<Comic>>() {
+                });
+            }
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(CollectionService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public String uploadImage(int id, File f) throws IOException {
@@ -95,4 +112,20 @@ public class CollectionService {
 
         return new Image(new ByteArrayInputStream(response.body()));
     }
+
+    public List<Client> getSuscriptors(Collection c) {
+        try {
+            String body = httpManager.getRequest("/collections/collection/" + c.getId() + "/suscriptions").body();
+
+            if (body != null) {
+                return mapper.readValue(body,
+                        new TypeReference<List<Client>>() {
+                });
+            }
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(CollectionService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

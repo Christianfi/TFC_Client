@@ -10,11 +10,11 @@ package dtos;
  * @author CHRISTIAN
  */
 public class Collection {
-    
+
     private String name;
-    
+
     private int id;
-    
+
     private String imageURL;
 
     public Collection() {
@@ -57,7 +57,19 @@ public class Collection {
     public String toString() {
         return this.name;
     }
-    
-    
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj == this) {
+                return true;
+            }
+
+            if (((Collection) obj).getId() == this.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

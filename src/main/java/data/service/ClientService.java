@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.HttpManager;
 import dtos.Client;
+import dtos.Collection;
+import dtos.SuscriptionDTO;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.logging.Level;
@@ -79,5 +81,50 @@ public class ClientService {
         HttpResponse<String> response = httpManager.deleteRequest("/clients/client/" + c.getId());
 
         return response.statusCode();
+    }
+
+    public int newSuscription(SuscriptionDTO suscription) {
+
+        try {
+            String body = mapper.writeValueAsString(suscription);
+
+            HttpResponse<String> response = httpManager.postRequest("/clients/client/" + suscription.getClientId() + "/suscription", body);
+
+            return response.statusCode();
+
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(ComicService.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
+    public int deleteSuscription(SuscriptionDTO suscription) {
+
+        try {
+            String body = mapper.writeValueAsString(suscription);
+
+            HttpResponse<String> response = httpManager.postRequest("/clients/client/" + suscription.getClientId() + "/suscription/delete", body);
+
+            return response.statusCode();
+
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(ComicService.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
+    public List<Collection> getSuscriptions(Client c) {
+        try {
+            String body = httpManager.getRequest("/clients/client/" + c.getId() + "/suscriptions").body();
+
+            if (body != null) {
+                return mapper.readValue(body,
+                        new TypeReference<List<Collection>>() {
+                });
+            }
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(CollectionService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

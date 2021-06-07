@@ -9,8 +9,11 @@ import data.service.ClientService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import dtos.Client;
+import java.awt.Image;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,12 +29,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.textfield.CustomTextField;
 import tools.AlertManager;
@@ -75,6 +87,8 @@ public class ClientWindowController implements Initializable {
     private ObservableList<Client> clientList;
 
     private final WindowManager windowManager = new WindowManager();
+    @FXML
+    private MenuItem mnuInforme1;
 
     /**
      * Initializes the controller class.
@@ -173,6 +187,31 @@ public class ClientWindowController implements Initializable {
             stage.showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(ComicWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @FXML
+    private void mnuInforme1OnAction(ActionEvent event) {
+        try {
+            String report = "/reports/clientesTotales.jrxml";
+            JasperReport jr = JasperCompileManager.compileReport(this.getClass().getResourceAsStream(report));
+            JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(clientService.getClients());
+
+            InputStream is = this.getClass().getResourceAsStream("/assets/icons/logo.png");
+            Image img = ImageIO.read(is);
+
+            HashMap parametros = new HashMap();
+            parametros.put("LOGO", img);
+
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, ds);
+
+            JasperViewer.viewReport(jp, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(ClientWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientWindowController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

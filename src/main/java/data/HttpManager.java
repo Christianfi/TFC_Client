@@ -28,7 +28,7 @@ import org.apache.http.util.EntityUtils;
 public class HttpManager {
 
     private HttpClient httpClient;
-    public final static String SERVER_ENDPOINT = "http://localhost:8080";
+    public final static String SERVER_ENDPOINT = "http://192.168.1.50:8080";
 
     public HttpManager() {
         httpClient = HttpClient.newHttpClient();

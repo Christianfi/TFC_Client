@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientSuscriptionsWindowController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="579.0" minHeight="10.0" prefHeight="540.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="579.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ListView fx:id="lvClientList" prefHeight="561.0" prefWidth="500.0" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="btnNewSuscriptor" mnemonicParsing="false" onAction="#btnNewSuscriptorOnAction" prefHeight="30.0" prefWidth="125.0" text="Añadir suscripcion" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+   </children>
+</GridPane>

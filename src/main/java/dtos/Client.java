@@ -42,8 +42,6 @@ public class Client {
 
     public Client() {
     }
-    
-    
 
     public int getId() {
         return id;
@@ -92,6 +90,24 @@ public class Client {
     public void setTlf(String tlf) {
         this.tlf = tlf;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return this.dni + " - " + this.name + " " + this.lastname;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj == this) {
+                return true;
+            }
+
+            if (((Client) obj).getId() == this.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

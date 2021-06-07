@@ -143,6 +143,10 @@ public class Comic implements Serializable{
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-    
+
+    @Override
+    public String toString() {
+        return "#"+this.number+" - "+this.name;
+    }
     
 }

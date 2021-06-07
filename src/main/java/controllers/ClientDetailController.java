@@ -7,17 +7,24 @@ package controllers;
 
 import data.service.ClientService;
 import dtos.Client;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.CustomTextField;
 import tools.AlertManager;
@@ -67,6 +74,8 @@ public class ClientDetailController implements Initializable {
     private Button btnEditar;
 
     private Client client;
+    @FXML
+    private Button btnSuscriptions;
 
     /**
      * Initializes the controller class.
@@ -98,6 +107,8 @@ public class ClientDetailController implements Initializable {
 
     @FXML
     private void btnEditarOnAction(ActionEvent event) {
+        btnCancelar.setVisible(true);
+        btnNuevoComic.setVisible(true);
         lblNombre.setVisible(false);
         lblApellidos.setVisible(false);
         lblDni.setVisible(false);
@@ -256,5 +267,27 @@ public class ClientDetailController implements Initializable {
         txtDni.setText(client.getDni());
         txtEmail.setText(client.getEmail());
         txtTelefono.setText(client.getTlf());
+    }
+
+    @FXML
+    private void btnSuscriptionsOnAction(ActionEvent event) {
+        openSuscriptions();
+    }
+
+    private void openSuscriptions() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ClientSuscriptionsWindow.fxml"));
+            Parent root = loader.load();
+            ClientSuscriptionsWindowController controller = loader.getController();
+            controller.setClient(client);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(client.getName()+" "+client.getLastname()+" - Suscripciones");
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(ComicWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
