@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CollectionWindowController">
    <center>
       <VBox alignment="CENTER">
@@ -25,23 +24,25 @@
    </center>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="mnuItemNewCollection" mnemonicParsing="false" onAction="#newCollectionOnAction" text="Nueva Coleccion" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
+         <menus>
+            <Menu fx:id="mnuInformes" mnemonicParsing="false" text="Informes">
+              <items>
+                <MenuItem fx:id="mnuInformeSuscriptores" mnemonicParsing="false" onAction="#mnuInformeSuscriptoresOnAction" text="Generar informe de suscriptores" />
+                  <MenuItem fx:id="mnuInformeComics" mnemonicParsing="false" onAction="#mnuInformeComicsOnAction" text="Generar informe de comics" />
+              </items>
+            </Menu>
+            <Menu fx:id="mnuIdioma" mnemonicParsing="false" text="Idioma">
+               <items>
+                  <MenuItem fx:id="mnuItemCastellano" mnemonicParsing="false" onAction="#mnuItemCastellanoOnAction" text="Castellano" />
+                  <MenuItem fx:id="mnuItemGallego" mnemonicParsing="false" onAction="#mnuItemGallegoOnAction" text="Gallego" />
+               </items>
+            </Menu>
+            <Menu fx:id="mnuAyuda" mnemonicParsing="false" text="Ayuda">
+               <items>
+                  <MenuItem fx:id="mnuItemAyuda" mnemonicParsing="false" onAction="#mnuItemAyudaOnAction" text="Ayuda" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
    </top>
 </BorderPane>

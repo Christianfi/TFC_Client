@@ -28,6 +28,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -79,6 +81,20 @@ public class NewComicFormController implements Initializable {
     private File imagen;
     @FXML
     private ImageView imgView;
+    @FXML
+    private Menu mnuIdioma;
+    @FXML
+    private MenuItem mnuItemCastellano;
+    @FXML
+    private MenuItem mnuItemGallego;
+    @FXML
+    private Menu mnuAyuda;
+    @FXML
+    private MenuItem mnuItemAyuda;
+
+    private ResourceBundle bundle;
+    private String msg_error_nuevo;
+    private String msg_confim_nuevo;
 
     /**
      * Initializes the controller class.
@@ -98,17 +114,17 @@ public class NewComicFormController implements Initializable {
                 if (imagen != null) {
                     try {
                         comicService.uploadImage(responseurl, imagen);
-                        AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic añadido con éxito", "Comic añadido").show();
+                        AlertManager.createAlert(Alert.AlertType.INFORMATION, msg_confim_nuevo, "Comic añadido").show();
                         ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
                     } catch (IOException ex) {
                         Logger.getLogger(NewComicFormController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
-                    AlertManager.createAlert(Alert.AlertType.INFORMATION, "Comic añadido con éxito", "Comic añadido").show();
+                    AlertManager.createAlert(Alert.AlertType.INFORMATION, msg_confim_nuevo, "Comic añadido").show();
                     ((Stage) this.btnNuevoComic.getScene().getWindow()).close();
                 }
             } else {
-                AlertManager.createAlert(Alert.AlertType.ERROR, "Ha ocurrido un problema al añadir el comic", "Error").show();
+                AlertManager.createAlert(Alert.AlertType.ERROR, msg_error_nuevo, "Error").show();
             }
         }
     }
@@ -266,9 +282,21 @@ public class NewComicFormController implements Initializable {
             imgView.setImage(new Image(f.toURI().toString()));
         }
     }
-    
-    public void setCollectionSelected(Collection c){
+
+    public void setCollectionSelected(Collection c) {
         this.cmbColeccion.getSelectionModel().select(c);
+    }
+
+    @FXML
+    private void mnuItemCastellanoOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void mnuItemGallegoOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void mnuItemAyudaOnAction(ActionEvent event) {
     }
 
 }

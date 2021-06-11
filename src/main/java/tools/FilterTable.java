@@ -5,8 +5,11 @@
  */
 package tools;
 
+import controllers.MainWindowController;
 import dtos.Client;
 import dtos.Comic;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -21,7 +24,8 @@ import org.controlsfx.control.textfield.CustomTextField;
 public class FilterTable {
 
     public static void filterComicTable(TableView<Comic> table, CustomTextField tfSearch, ObservableList<Comic> comics, IndexedCheckModel<String> checkModel) {
-
+        Locale.setDefault(MainWindowController.locale);
+        ResourceBundle bundle = ResourceBundle.getBundle("i18n.i18n");
         FilteredList<Comic> filterList = new FilteredList<>(comics, b -> true);
 
         tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -37,11 +41,11 @@ public class FilterTable {
                 //used indexOf instead of contains to match the string from the beggining
                 if (checkModel.isChecked("ID") && String.valueOf(comic.getId()).toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (checkModel.isChecked("Nombre") && comic.getName().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (checkModel.isChecked(bundle.getString("nombre")) && comic.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (checkModel.isChecked("Coleccion") && comic.getCollectionName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (checkModel.isChecked("Fecha de Publicacion") && comic.getPublishDate().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (checkModel.isChecked(bundle.getString("fecha_publicacion")) && comic.getPublishDate().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (checkModel.isChecked("Numero") && String.valueOf(comic.getNumber()).toLowerCase().contains(lowerCaseFilter)) {
                     return true;

@@ -4,16 +4,12 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
 	<parameter name="LOGO" class="java.awt.Image"/>
-	<field name="dni" class="java.lang.String">
-	</field>
-	<field name="name" class="java.lang.String">
-	</field>
-	<field name="lastname" class="java.lang.String">
-	</field>
-	<field name="email" class="java.lang.String">
-	</field>
-	<field name="tlf" class="java.lang.String">
-	</field>
+	<parameter name="COLECCION" class="java.lang.String"/>
+	<field name="dni" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="lastname" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="tlf" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -21,17 +17,17 @@
 		<band height="72">
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="656f348c-28a8-4458-a9a9-57f6d0c093fe"/>
-				<staticText>
-					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="6ead08cd-a067-467c-a862-9f3e5cb103aa"/>
-					<textElement>
-						<font size="34" isBold="true"/>
-					</textElement>
-					<text><![CDATA[CLIENTES]]></text>
-				</staticText>
 				<image>
-					<reportElement x="380" y="13" width="195" height="67" uuid="b351e08d-d65e-4e19-8ef6-c3ec99e5212c"/>
+					<reportElement x="440" y="13" width="135" height="67" uuid="b351e08d-d65e-4e19-8ef6-c3ec99e5212c"/>
 					<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 				</image>
+				<textField>
+					<reportElement x="10" y="13" width="340" height="66" forecolor="#FFFFFF" uuid="3006a64a-a4e6-45a7-93b6-24fb69f5c9b9"/>
+					<textElement markup="none">
+						<font size="22"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{COLECCION}+ "- Suscriptores"]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</title>
